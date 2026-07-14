@@ -26,3 +26,17 @@ def get_single_model(model_name: str):
             return m
 
     return {"error": "Model not found"}
+@app.get("/search")
+def search_models(tool: str):
+    models = [
+        {"name": "Huntsman", "size": "91mm", "tools": ["scissors", "saw", "corkscrew"]},
+        {"name": "Climber", "size": "91mm", "tools": ["scissors", "corkscrew"]},
+        {"name": "Tinker", "size": "91mm", "tools": ["phillips", "awl"]},
+    ]
+
+    results = []
+    for m in models:
+        if tool.lower() in [t.lower() for t in m["tools"]]:
+            results.append(m)
+
+    return results
