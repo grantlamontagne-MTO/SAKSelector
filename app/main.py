@@ -1,15 +1,29 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 
 # ---------------------------------------------------------
-# Shared model data (all endpoints use this)
+# Template loader (for /ui)
+# ---------------------------------------------------------
+templates = Jinja2Templates(directory="templates")
+
+# ---------------------------------------------------------
+# Shared model data
 # ---------------------------------------------------------
 models = [
     {"name": "Huntsman", "size": "91mm", "tools": ["scissors", "saw", "corkscrew"]},
     {"name": "Climber", "size": "91mm", "tools": ["scissors", "corkscrew"]},
     {"name": "Tinker", "size": "91mm", "tools": ["phillips", "awl"]},
 ]
+
+# ---------------------------------------------------------
+# UI route
+# ---------------------------------------------------------
+@app.get("/ui", response_class=HTMLResponse)
+def ui_page(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 # ---------------------------------------------------------
 # Root endpoint
