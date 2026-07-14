@@ -13,9 +13,17 @@ COPY ./app /app
 COPY ./templates /app/templates
 COPY ./static /app/static
 
-# Install matching FastAPI + Starlette versions
-RUN pip uninstall -y fastapi starlette || true && \
-    pip install fastapi==0.95.2 starlette==0.27.0 uvicorn jinja2 python-multipart aiofiles
+# Completely remove FastAPI + Starlette (if present)
+RUN pip uninstall -y fastapi starlette || true
+
+# Install matching versions
+RUN pip install \
+    fastapi==0.95.2 \
+    starlette==0.27.0 \
+    uvicorn \
+    jinja2 \
+    python-multipart \
+    aiofiles
 
 # Expose port
 EXPOSE 8000
