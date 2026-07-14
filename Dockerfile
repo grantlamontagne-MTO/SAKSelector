@@ -10,7 +10,7 @@ COPY ./templates /app/templates
 COPY ./static /app/static
 
 # Install required dependencies
-RUN pip install fastapi uvicorn jinja2 python-multipart aiofiles
+RUN pip install fastapi==0.95.2 uvicorn jinja2 python-multipart aiofiles
 
 # Expose port (Coolify is gone, so this is direct)
 EXPOSE 8000
