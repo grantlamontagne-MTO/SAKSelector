@@ -3,5 +3,13 @@ from fastapi import FastAPI
 app = FastAPI()
 
 @app.get("/")
-def read_root():
+def root():
     return {"message": "Hello SAKSelector!"}
+
+@app.get("/models")
+def get_models():
+    return [
+        {"name": "Huntsman", "size": "91mm", "tools": ["scissors", "saw", "corkscrew"]},
+        {"name": "Climber", "size": "91mm", "tools": ["scissors", "corkscrew"]},
+        {"name": "Tinker", "size": "91mm", "tools": ["phillips", "awl"]},
+    ]
