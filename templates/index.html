@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SAKSelector Test UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px 0;
+            width: 100%;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            min-height: 50px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h1>SAKSelector UI</h1>
+
+<button onclick="loadModels()">Show All Models</button>
+<button onclick="loadModel('Huntsman')">Show Huntsman</button>
+<button onclick="loadModel('Climber')">Show Climber</button>
+<button onclick="loadModel('Tinker')">Show Tinker</button>
+
+<button onclick="searchTool('scissors')">Search: scissors</button>
+<button onclick="searchTool('awl')">Search: awl</button>
+
+<div id="output">Results will appear here...</div>
+
+<script>
+    async function loadModels() {
+        const res = await fetch('/models');
+        document.getElementById('output').innerText = JSON.stringify(await res.json(), null, 2);
+    }
+
+    async function loadModel(name) {
+        const res = await fetch('/sak/' + name);
+        document.getElementById('output').innerText = JSON.stringify(await res.json(), null, 2);
+    }
+
+    async function searchTool(tool) {
+        const res = await fetch('/search?tool=' + tool);
+        document.getElementById('output').innerText = JSON.stringify(await res.json(), null, 2);
+    }
+</script>
+
+</body>
+</html>
