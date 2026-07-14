@@ -1,19 +1,24 @@
-# force rebuild 4
 FROM python:3.11-slim
 
-# Set working directory inside the container
+# Set working directory
 WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy application code
 COPY ./app /app
 COPY ./templates /app/templates
 COPY ./static /app/static
 
-# Install required dependencies
-RUN pip install fastapi==0.95.2 uvicorn jinja2 python-multipart aiofiles
+# Install matching FastAPI + Starlette versions
+RUN pip uninstall -y fastapi starlette || true && \
+    pip install fastapi==0.95.2 starlette==0.27.0 uvicorn jinja2 python-multipart aiofiles
 
-# Expose port (Coolify is gone, so this is direct)
+# Expose port
 EXPOSE 8000
 
-# Start FastAPI using Uvicorn
+# Run the app
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
